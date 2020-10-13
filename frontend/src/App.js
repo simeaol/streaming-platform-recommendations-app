@@ -5,6 +5,7 @@ import './App.css';
 function App() {
 
   var [whishList, setList] = useState([])
+  var [recommended, setRecommendation] = useState('')
 
   function handleInclusion(){
     const title = document.getElementById("search_field").value        
@@ -33,11 +34,17 @@ function App() {
     return data;
   }
 
-  function getRecommendation(){
-    if(whishList.values.length == 0){
-      alert('Favor, adicionar titulo de filmes ou series favoritas')
+  async function getRecommendation(){
+    console.info(`Total of elements in whislist = ${whishList.values.length}`)
+    if(whishList.length === 0){      
+      alert('Favor, adicionar titulo de filmes ou series favoritas');
+      return;
     }
-    alert('Recomendacao')
+    console.error(whishList);
+    alert('Recomendacao');   
+    
+    const response = await axios.post('http://localhost:3333/', JSON.parse(whishList));//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
+    setRecommendation(response.data)
   }
 
   return (
@@ -49,11 +56,16 @@ function App() {
       </div>
       <div className="App">
         <ul>
-          {whishList}
+          {whishList.map((name, index) => {
+            return <li key={ index }>{name}</li>;
+          })}
         </ul>
       </div>
       <div className="App">
         <button id="recommendation_btn" onClick={getRecommendation}>Obter recomendação</button>
+      </div>
+      <div className="App">
+        // Recomendation here!!!
       </div>
     </>
   );

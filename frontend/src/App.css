@@ -48,6 +48,10 @@
   color: black;
   background-color: cornflowerblue;
   text-align: center;
+  
+}
+#search_btn:hover{
+  background-color: blue;
 }
 
 #recommendation_btn {
@@ -56,4 +60,8 @@
   color: black;
   background-color: green;
   text-align: center;
+}
+
+#recommendation_btn:hover {
+  background-color: #0dc90d;
 }
