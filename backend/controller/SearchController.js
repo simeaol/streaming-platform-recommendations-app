@@ -65,9 +65,9 @@ module.exports = {
             var justwatch = new JustWatch({locale:'pt_BR'});
             for(title of data){
                 var result = await justwatch.search({query: title});
-                for(item of result['items']){
-                    console.log(`${item['title'].toLowerCase()} == ${title.toLowerCase()}`);
-                    if(item['title'].toLowerCase().trim() === title.toLowerCase().trim()){ //Given title equals to requested
+                for(item of result['items']){                                       
+                    if(item['title'].toLowerCase().trim() == title.toLowerCase().trim()){ //Given title equals to requested
+                        console.info(`${item['title'].toLowerCase()} == ${title.toLowerCase()}`);
                         console.log(`Offers  for ${title}. \n ${JSON.stringify(item['offers'])}`);
                         if(type){
                             for(offer of item['offers']){
