@@ -19,6 +19,17 @@ function App() {
 
   }
 
+  function handleExclusion(index){
+    let elIndex = index;
+    console.log(elIndex);
+
+    if (elIndex !== null) {
+      const newList = whishList.filter((v, i) => i !== elIndex)
+
+      setList(newList)
+    }
+  }
+
   async function getTitles (title) {
     const { data } = await axios.get(`http://localhost:3333/?title=${title}`);
    
@@ -41,7 +52,8 @@ function App() {
       return;
     }
     console.error(whishList);
-    alert('Recomendacao');   
+    alert('Recomendacao');
+    console.log(whishList)   
     
     const response = await axios.post('http://localhost:3333/', {
       data: whishList,
@@ -52,14 +64,14 @@ function App() {
   return (
     <>
       <div className="App">
-        <h1>INF-332 - Bemvindo ao sistema de recomendação</h1>
+        <h1>INF-332 - Bem Vindo ao Sistema de Recomendação</h1>
         <input type="text" id="search_field" width="50%" placeholder="Digite o nome do filmes, series e ..." />
         <button id="search_btn" onClick={handleInclusion}>Incluir</button>
       </div>
       <div className="App">
-        <ul>
+        <ul class="list_of_my_movies">
           {whishList.map((name, index) => {
-            return <li key={ index }>{name}</li>;
+            return <li key={ index }>{name} <button class="btn-delete" onClick={() => handleExclusion(index)}>X</button></li>;
           })}
         </ul>
       </div>
