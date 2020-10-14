@@ -67,10 +67,11 @@
 #search_btn {
   height: 80px;
   font-size: 30px;
-  background: white;
-  color: var(--primaryColor);
   position: absolute;
   right: 0;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  font-weight: 500;
 }
 
 .search_input {
@@ -100,12 +101,16 @@
 }
 
 #recommendation_btn {
-  height: 80px;
+  height: 60px;
   text-align: center;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 #my_movies_section {
+  width: 100%;
+}
+
+#recommend_section {
   width: 100%;
 }
 
@@ -120,10 +125,23 @@
   margin-top: 0;
 }
 
+.list_of_recommendeds{
+  display: inline-flex;
+  flex-wrap: wrap;
+  text-align: center;
+  list-style-type: none;
+  text-align: center;
+}
+
 .list_item {
  margin-right: 20px;
  margin-top: 10px;
 }
+
+.recommended_item {
+  margin: 10px;
+  padding: 0;
+ }
 
 .app_title {
   font-size: 120px;
@@ -139,8 +157,15 @@
 }
 
 .recommended_img {
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 165px;
+}
+
+.recommended_title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 165px;
 }
 
 .list-item {
@@ -166,4 +191,9 @@
 .list-item ul a {
   text-align: center;
   color: aliceblue;
+}
+
+.section_title {
+  font-size: 20px;
+  font-weight: 400;
 }

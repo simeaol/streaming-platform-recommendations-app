@@ -115,22 +115,23 @@ function App() {
   function renderRecommendation() {
     if (recommended) {
       return (
-        <div>
+        <div className="App">
           <div>
-            <h5>Plataforma recomendada</h5>
+            <p className="section_title">Baseado no seu gosto, essa é sua plataforma ideal:</p>
             <h6>{recommended.name}</h6>
             <img src={recommended.image_url} alt="" />
           </div>
           <div>
-            <h2>Filmes e series que você pode gostar:</h2>
-            <div className="list-item">
-              <ul>
+            <p className="section_title">Filmes e series que você pode gostar:</p>
+            <div>
+              <ul className="list_of_recommendeds">
                   {movies.map((data, index) => {
                   return (
-                    <li className="list_item" key={index}>                     
-                      <div>
+                    <li className="recommended_item" key={index}>                     
+                      <div className="recommended_title">
                         <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
-                        <a>{data['title']}</a>
+                        <br></br>
+                        <span className="recommended_name">{data['title']}</span> 
                       </div>
                      
                     </li>
@@ -165,13 +166,16 @@ function App() {
       </div>
       <div className="App" id="App_Title">
         <h1 className="app_title">Sistema de Recomendação</h1>
-        <span className="description">Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? Deixa com a gente, digite os
-          filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar ;)</span>
+        <span className="description">
+          Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? 
+          <br></br> 
+          Deixa com a gente, digite os filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar ;)
+        </span>
       </div>
       <div className="App" id="search_section">
         <div className="search-form">
           <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange}/>
-          <button id="search_btn" onClick={() => handleInclusion(null)}>Incluir</button>
+          <button id="search_btn" onClick={() => handleInclusion(null)}><img src="/images/add_white_18dp.png"></img></button>
         </div>
         {possibleTitles.length > 0 ? (
           <div className="search-results">{renderSearchPreview}</div>
