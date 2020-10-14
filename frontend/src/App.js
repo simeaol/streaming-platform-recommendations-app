@@ -114,6 +114,9 @@ function App() {
       <div className="App-footer">
         <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
       </div>
+      <div className="App-footer">
+        <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
+      </div>
     </>
   );
 }
