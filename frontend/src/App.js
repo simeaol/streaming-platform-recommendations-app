@@ -98,7 +98,7 @@ function App() {
   function renderRecommendation() {
     if (recommended) {
       return (
-        <div>
+        <div className="App">
           <div>
             <h5>Plataforma recomendada</h5>
             <h6>{recommended.name}</h6>
@@ -106,14 +106,15 @@ function App() {
           </div>
           <div>
             <h2>Filmes e series que você pode gostar:</h2>
-            <div className="list-item">
-              <ul>
+            <div>
+              <ul className="list_of_recommendeds">
                   {movies.map((data, index) => {
                   return (
-                    <li className="list_item" key={index}>                     
-                      <div>
+                    <li className="recommended_item" key={index}>                     
+                      <div className="recommended_title">
                         <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
-                        <a>{data['title']}</a>
+                        <br></br>
+                        <span className="recommended_name">{data['title']}</span> 
                       </div>
                      
                     </li>
