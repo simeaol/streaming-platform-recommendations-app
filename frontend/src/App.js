@@ -4,6 +4,8 @@ import './App.css';
 
 function App() {
 
+  const BACKEND_SVC = process.env.BACKEND_SVC || 'http://localhost:3333';
+
   var [whishList, setList] = useState([])
   var [recommended, setRecommendation] = useState({})
 
@@ -31,7 +33,7 @@ function App() {
   }
 
   async function getTitles (title) {
-    const { data } = await axios.get(`http://localhost:3333/?title=${title}`);
+    const { data } = await axios.get(`${BACKEND_SVC}/?title=${title}`);
    
 
     console.log(`request result = ${ JSON.stringify(data)}`);
@@ -53,20 +55,32 @@ function App() {
     }
     console.info(whishList);
     alert('Recomendacao');
-    console.log(whishList)   
     
-    const response = await axios.post('http://localhost:3333/', {
-      type: "",//TODO: monitization type includes: flatrate, ... if empty, all types will be considered!
-      data: whishList,
-    });//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
-    const { provider } = response.data;
-    const providerInfo = await axios.get(`http://localhost:3333/providers/${provider}`);
-    console.log(`Recommended Provider=${providerInfo}`);
-    if(providerInfo.data){
-      const { icon_url } = providerInfo.data;
-      const id = icon_url.split('/')[2]
-      setRecommendation({name: providerInfo.data['clear_name'], image_url: `https://images.justwatch.com/icon/${id}/s100`});
-    }
+    try{
+      const response = await axios.post(BACKEND_SVC, {
+        type: "",//TODO: monitization type includes: flatrate, ... if empty, all types will be considered!
+        data: whishList,
+      });//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
+      if(response.status != 200){
+        alert(providerInfo.body);
+        return;
+      }
+      const { provider } = response.data;
+      const providerInfo = await axios.get(`${BACKEND_SVC}/providers/${provider}`);
+      if(providerInfo.status != 200){
+        alert(providerInfo.body);
+        return;
+      }
+      console.log(`Recommended Provider=${providerInfo}`);
+      if(providerInfo.data){
+        const { icon_url } = providerInfo.data;
+        const id = icon_url.split('/')[2]
+        setRecommendation({name: providerInfo.data['clear_name'], image_url: `https://images.justwatch.com/icon/${id}/s100`});
+      }
+
+    }catch(error){
+      alert(error);
+    }   
     
   }
 
