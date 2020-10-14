@@ -1,5 +1,17 @@
+html {
+  --bgColor: #1a1715;
+  --primaryColor: #e33535;
+  --linkColor: #e33535;
+  --linkHover: #d46161;
+  --btnOnClick: #e33535;
+  background-color: var(--bgColor);
+  color: white;
+}
+
 body {
   margin: 0;
+  padding:0;
+  height:100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -10,4 +22,46 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a {
+  color: var(--linkColor);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--linkHover);
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+button {
+  background-color: var(--primaryColor);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 6px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+input {
+  outline: none;
+}
+
+button:hover {
+  background-color: var(--linkHover);
+}
+
+button:focus {
+  outline: none;
+  background-attachment: var(--btnOnClick);
 }
