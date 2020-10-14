@@ -51,14 +51,16 @@ function App() {
       alert('Favor, adicionar titulo de filmes ou series favoritas');
       return;
     }
-    console.error(whishList);
+    console.info(whishList);
     alert('Recomendacao');
     console.log(whishList)   
     
     const response = await axios.post('http://localhost:3333/', {
+      type: "",//TODO: monitization type includes: flatrate, ... if empty, all types will be considered!
       data: whishList,
     });//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
-    setRecommendation(response.data)
+    const { provider } = response.data;
+    setRecommendation(`https://images.justwatch.com/icon/${provider}/s100`);
   }
 
   return (
@@ -79,7 +81,7 @@ function App() {
         <button id="recommendation_btn" onClick={getRecommendation}>Obter recomendação</button>
       </div>
       <div className="App">
-        // Recomendation here!!!
+        <img src={recommended} alt=""/>
       </div>
     </>
   );
