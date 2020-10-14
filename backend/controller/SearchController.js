@@ -1,7 +1,8 @@
 const JustWatch = require("justwatch-api");
-const https = require('https');
+const bodyParser = require("body-parser");
 
 module.exports = {
+    /**Find all title with the similarity */
     findTitle: async (req, resp) => {
         console.log('About searching movie...');
         var justwatch = new JustWatch({locale:'pt_BR'});
@@ -26,6 +27,7 @@ module.exports = {
         resp.redirect(`https://images.justwatch.com/icon/${id}/s100`);
     },
     
+    /**Return all providers available in the service */
     findProviders: async (req, resp) => {
         console.log('About searching providers...');
         var justwatch = new JustWatch({locale:'pt_BR'});
@@ -36,6 +38,7 @@ module.exports = {
         return resp.json(searchResult);
     },
 
+    /**Find provider by ID */
     findProviderById: async (req, resp) => {
         const { id } = req.params;
         console.log(`About finding provider ID=${id}`);
@@ -51,8 +54,50 @@ module.exports = {
 
     },
 
+    /**Return provider which contains most element provided by the user */
     findRecommendation: async (req, resp) => {
-        console.log(`Request body: ${JSON.stringify(req.body)}`);
-        return resp.json(req.body);
+        const { type, data } = req.body;
+        console.log(type)
+        if(data){
+            var providers = new Map();
+            var justwatch = new JustWatch({locale:'pt_BR'});
+            for(title of data){
+                var result = await justwatch.search({query: title});
+                for(item of result['items']){
+                    if(item['title'].toLowerCase() == title.toLowerCase()){ //Given title equals to requested
+
+                        if(type){
+                            item['offers'].reduce((filtered, offer) => {
+                                if(offer['monetization_type'] == type){
+                                    const { provider_id } = offer;
+                                    const element = providers.get(provider_id);
+                                    if(element){
+                                        providers.set(offer['provider_id'], element+1);
+                                    }else{
+                                        providers.set(offer['provider_id'], 1);
+                                    }                                    
+                                }
+                            });                          
+                            
+                        }else{
+                            item['offers'].reduce((filtered, offer) => {
+                                const { provider_id } = offer;
+                                const element = providers.get(provider_id);
+                                if(element){
+                                    providers.set(offer['provider_id'], element+1);
+                                }else{
+                                    providers.set(offer['provider_id'], 1);
+                                }
+                            });                               
+                        }                        
+                    }
+                }           
+
+            }    
+            const [provider_id, total] = [...providers.entries()].reduce((a, e) => e[1] > a[1] ? e : a);
+            return resp.json({"provider":provider_id, "total" :total});     
+        }
+   
+        return resp.status(400).send(`Bad request!`);
     }
 };
