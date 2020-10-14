@@ -9,19 +9,19 @@ function App() {
   var [whishList, setList] = useState([])
   var [recommended, setRecommendation] = useState({})
 
-  function handleInclusion(){
-    const title = document.getElementById("search_field").value        
+  function handleInclusion() {
+    const title = document.getElementById("search_field").value
     console.log(title)
 
-    if(title){
+    if (title) {
       setList([...whishList, title])
-      document.getElementById("search_field").value=''
+      document.getElementById("search_field").value = ''
     }
     console.log(whishList)
 
   }
 
-  function handleExclusion(index){
+  function handleExclusion(index) {
     let elIndex = index;
     console.log(elIndex);
 
@@ -34,22 +34,21 @@ function App() {
 
   async function getTitles (title) {
     const { data } = await axios.get(`${BACKEND_SVC}/?title=${title}`);
-   
 
-    console.log(`request result = ${ JSON.stringify(data)}`);
-    if(data){
+    console.log(`request result = ${JSON.stringify(data)}`);
+    if (data) {
       const items = data['items']
       console.log(items)
-      for(var index in items){
+      for (var index in items) {
         console.log(items[index])
       }
     }
     return data;
   }
 
-  async function getRecommendation(){
+  async function getRecommendation() {
     console.info(`Total of elements in whislist = ${whishList.length}`)
-    if(whishList.length === 0){      
+    if (whishList.length === 0) {
       alert('Favor, adicionar titulo de filmes ou series favoritas');
       return;
     }
@@ -81,42 +80,54 @@ function App() {
     }catch(error){
       alert(error);
     }   
-    
   }
 
-  function renderRecommendation(){
-    if(recommended){
-      return(
-      <div>
-        <h5>Plataforma recomendado</h5>
-        <h6>{recommended.name}</h6>
-        <img src={recommended.image_url} alt=""/>
-      </div>
+  function renderRecommendation() {
+    if (recommended) {
+      return (
+        <div>
+          <h5>Plataforma recomendada</h5>
+          <h6>{recommended.name}</h6>
+          <img src={recommended.image_url} alt="" />
+        </div>
       )
-    }else{
+    } else {
       return <div></div>
     }
   }
 
   return (
     <>
-      <div className="App">
-        <h1>INF-332 - Bem Vindo ao Sistema de Recomendação</h1>
-        <input type="text" id="search_field" width="50%" placeholder="Digite o nome do filmes, series e ..." />
+      <div className="App-header">
+        <img src="/images/what2watch_logo_white.png"></img>
+      </div>
+      <div className="App" id="App_Title">
+        <h1 className="app_title">Sistema de Recomendação</h1>
+        <span className="description">Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? Deixa com a gente, digite os
+          filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar ;)</span>
+      </div>
+      <div className="App" id="search_section">
+        <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." />
         <button id="search_btn" onClick={handleInclusion}>Incluir</button>
       </div>
-      <div className="App">
-        <ul class="list_of_my_movies">
+      <div className="App" id="my_movies_section">
+        <ul className="list_of_my_movies">
           {whishList.map((name, index) => {
-            return <li key={ index }>{name} <button class="btn-delete" onClick={() => handleExclusion(index)}>X</button></li>;
+            return <li className="list_item" key={index}>{name} <button className="btn_remove" onClick={() => handleExclusion(index)}>X</button></li>;
           })}
         </ul>
       </div>
       <div className="App">
         <button id="recommendation_btn" onClick={getRecommendation}>Obter recomendação</button>
       </div>
-      <div className="App">    
+      <div className="App">
         {renderRecommendation()}
+      </div>
+      <div className="App-footer">
+        <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
+      </div>
+      <div className="App-footer">
+        <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
       </div>
     </>
   );
