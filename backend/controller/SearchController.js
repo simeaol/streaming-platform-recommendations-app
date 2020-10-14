@@ -56,18 +56,21 @@ module.exports = {
 
     /**Return provider which contains most element provided by the user */
     findRecommendation: async (req, resp) => {
+        console.info(`About finding recommendation. Details=${JSON.stringify(req.body)}`);
         const { type, data } = req.body;
-        console.log(type)
+        console.info(`filter type = ${type}`);
         if(data){
             var providers = new Map();
             var justwatch = new JustWatch({locale:'pt_BR'});
             for(title of data){
                 var result = await justwatch.search({query: title});
                 for(item of result['items']){
-                    if(item['title'].toLowerCase() == title.toLowerCase()){ //Given title equals to requested
-
+                    console.log(`${item['title'].toLowerCase()} == ${title.toLowerCase()}`);
+                    if(item['title'].toLowerCase().trim() === title.toLowerCase().trim()){ //Given title equals to requested
+                        console.log(`Offers  for ${title}. \n ${JSON.stringify(item['offers'])}`);
                         if(type){
-                            item['offers'].reduce((filtered, offer) => {
+                            for(offer of item['offers']){
+                                console.info(`Checkiing monitization type for ${JSON.stringify(offer)}`);
                                 if(offer['monetization_type'] == type){
                                     const { provider_id } = offer;
                                     const element = providers.get(provider_id);
@@ -77,23 +80,30 @@ module.exports = {
                                         providers.set(offer['provider_id'], 1);
                                     }                                    
                                 }
-                            });                          
+                            }                      
                             
-                        }else{
-                            item['offers'].reduce((filtered, offer) => {
+                        }else{                            
+                            for(offer of item['offers']){
+                                console.info(`${offer}`)
                                 const { provider_id } = offer;
+                                console.info(`Adding element to ${provider_id}`);
                                 const element = providers.get(provider_id);
                                 if(element){
                                     providers.set(offer['provider_id'], element+1);
                                 }else{
                                     providers.set(offer['provider_id'], 1);
                                 }
-                            });                               
+                            }                             
                         }                        
                     }
                 }           
 
-            }    
+            }  
+            console.log(providers);
+            if(providers.size == 0){
+                return resp.status(404).end('Recommendation NOT FOUND');
+            }  
+            console.log(providers)
             const [provider_id, total] = [...providers.entries()].reduce((a, e) => e[1] > a[1] ? e : a);
             return resp.json({"provider":provider_id, "total" :total});     
         }
