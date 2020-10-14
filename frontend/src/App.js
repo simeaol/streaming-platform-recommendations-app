@@ -19,6 +19,17 @@ function App() {
 
   }
 
+  function handleExclusion(index){
+    let elIndex = index;
+    console.log(elIndex);
+
+    if (elIndex !== null) {
+      const newList = whishList.filter((v, i) => i !== elIndex)
+
+      setList(newList)
+    }
+  }
+
   async function getTitles (title) {
     const { data } = await axios.get(`http://localhost:3333/?title=${title}`);
    
@@ -58,7 +69,7 @@ function App() {
       <div className="App">
         <ul class="list_of_my_movies">
           {whishList.map((name, index) => {
-            return <li key={ index }>{name}</li>;
+            return <li key={ index }>{name} <button class="btn-delete" onClick={() => handleExclusion(index)}>X</button></li>;
           })}
         </ul>
       </div>
