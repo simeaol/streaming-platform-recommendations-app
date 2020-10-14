@@ -5,7 +5,7 @@ import './App.css';
 function App() {
 
   var [whishList, setList] = useState([])
-  var [recommended, setRecommendation] = useState('')
+  var [recommended, setRecommendation] = useState({})
 
   function handleInclusion(){
     const title = document.getElementById("search_field").value        
@@ -46,7 +46,7 @@ function App() {
   }
 
   async function getRecommendation(){
-    console.info(`Total of elements in whislist = ${whishList.values.length}`)
+    console.info(`Total of elements in whislist = ${whishList.length}`)
     if(whishList.length === 0){      
       alert('Favor, adicionar titulo de filmes ou series favoritas');
       return;
@@ -55,7 +55,9 @@ function App() {
     alert('Recomendacao');
     console.log(whishList)   
     
-    const response = await axios.post('http://localhost:3333/', whishList);//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
+    const response = await axios.post('http://localhost:3333/', {
+      data: whishList,
+    });//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
     setRecommendation(response.data)
   }
 
