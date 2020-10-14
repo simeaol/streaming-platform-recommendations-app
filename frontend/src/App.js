@@ -8,6 +8,7 @@ function App() {
 
   var [whishList, setList] = useState([])
   var [recommended, setRecommendation] = useState({})
+  var [movies, setMovies] = useState([])
 
   function handleInclusion() {
     const title = document.getElementById("search_field").value
@@ -47,6 +48,7 @@ function App() {
   }
 
   async function getRecommendation() {
+    setRecommendation({})
     console.info(`Total of elements in whislist = ${whishList.length}`)
     if (whishList.length === 0) {
       alert('Favor, adicionar titulo de filmes ou series favoritas');
@@ -82,15 +84,46 @@ function App() {
     }   
   }
 
+  async function handleRecommendedTitles(){
+    const response = await axios.get(`${BACKEND_SVC}/recommendation/movie/?title=${whishList[0]}`);
+    console.log(`Recommendations: ${response.data}`);
+    if(response.status == 200){
+      const { data } = response;
+      setMovies(data);
+    }else{
+      setMovies({});
+    }
+  }
+
   function renderRecommendation() {
     if (recommended) {
       return (
         <div>
-          <h5>Plataforma recomendada</h5>
-          <h6>{recommended.name}</h6>
-          <img src={recommended.image_url} alt="" />
+          <div>
+            <h5>Plataforma recomendada</h5>
+            <h6>{recommended.name}</h6>
+            <img src={recommended.image_url} alt="" />
+          </div>
+          <div>
+            <h2>Filmes e series que você pode gostar:</h2>
+            <div className="list-item">
+              <ul>
+                  {movies.map((data, index) => {
+                  return (
+                    <li className="list_item" key={index}>                     
+                      <div>
+                        <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
+                        <a>{data['title']}</a>
+                      </div>
+                     
+                    </li>
+                  )
+                })}
+              </ul>
         </div>
-      )
+          </div>
+        </div>
+      );
     } else {
       return <div></div>
     }
@@ -118,13 +151,10 @@ function App() {
         </ul>
       </div>
       <div className="App">
-        <button id="recommendation_btn" onClick={getRecommendation}>Obter recomendação</button>
+        <button id="recommendation_btn" onClick={() => {getRecommendation(); handleRecommendedTitles();}}>Obter recomendação</button>
       </div>
       <div className="App">
         {renderRecommendation()}
-      </div>
-      <div className="App-footer">
-        <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
       </div>
       <div className="App-footer">
         <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
