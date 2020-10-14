@@ -32,8 +32,6 @@
 
 .App-footer {
   font-size: 15px;
-  position:absolute;
-  bottom:0;
   width:100%;
   text-align: center;
   line-height: 40px;
@@ -46,20 +44,30 @@
 }
 
 #search_section {
- height: 80px;
+ display: flex;
+ flex-direction: column;
+ padding: 0 200px;
+}
+
+.search-form {
+  display: flex;
+  position: relative;
 }
 
 #search_field {
-  width: 70%;
-  height: 100%;
+  flex: 6;
+  height: 80px;
   vertical-align: bottom;
   border: none;
 }
 
 #search_btn {
-  width: auto;
-  height: 100%;
-  font-size: 25px;
+  height: 80px;
+  font-size: 30px;
+  background: white;
+  color: var(--primaryColor);
+  position: absolute;
+  right: 0;
 }
 
 .search_input {
@@ -70,10 +78,28 @@
   border-radius: 6px;
 }
 
+.search-results {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-preview {
+  background: white;
+  color: black;
+  text-align: left;
+  padding-left: 5px;
+  font-size: 30px;
+}
+
+.search-preview:hover {
+  background: #efefef;
+  cursor: pointer;
+}
+
 #recommendation_btn {
-  width: 200px;
-  height: 40px;
+  height: 80px;
   text-align: center;
+  font-size: 30px;
 }
 
 #my_movies_section {

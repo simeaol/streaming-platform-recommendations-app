@@ -8,17 +8,36 @@ function App() {
 
   var [whishList, setList] = useState([])
   var [recommended, setRecommendation] = useState({})
+  const [movie, setMovie] = useState('');
+  const [possibleTitles, setPossibleTitles] = useState([]);
 
-  function handleInclusion() {
-    const title = document.getElementById("search_field").value
+  async function handleChange(e) {
+    if (e.target.value.length >= 3) {
+      let movie = e.target.value;
+
+      const response = await getTitles(movie);
+      setPossibleTitles(response['items'].slice(1, 3));
+      let titles = response['items'].slice(1, 3).map((i) =>  i.title);
+
+      console.log(`Possible item: ${titles}`);
+    }
+
+    setMovie(movie);
+  }
+
+  function handleInclusion(itemTitle) {
+    let title = document.getElementById("search_field").value;
+    if (itemTitle !== null) {
+      title = itemTitle;
+    }
     console.log(title)
 
     if (title) {
       setList([...whishList, title])
       document.getElementById("search_field").value = ''
+      setPossibleTitles([]);
     }
     console.log(whishList)
-
   }
 
   function handleExclusion(index) {
@@ -96,6 +115,18 @@ function App() {
     }
   }
 
+  var renderSearchPreview = possibleTitles.map(({ title, original_release_year }, index) => {
+    return (
+      <SearchPreview
+        key={index}
+        handleInclusion={handleInclusion}
+        index={index}
+        title={title}
+        year={original_release_year}
+      />
+    );
+  });
+
   return (
     <>
       <div className="App-header">
@@ -107,8 +138,13 @@ function App() {
           filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar ;)</span>
       </div>
       <div className="App" id="search_section">
-        <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." />
-        <button id="search_btn" onClick={handleInclusion}>Incluir</button>
+        <div className="search-form">
+          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange}/>
+          <button id="search_btn" onClick={() => handleInclusion(null)}>Incluir</button>
+        </div>
+        {possibleTitles.length > 0 ? (
+          <div className="search-results">{renderSearchPreview}</div>
+        ) : null}
       </div>
       <div className="App" id="my_movies_section">
         <ul className="list_of_my_movies">
@@ -126,11 +162,22 @@ function App() {
       <div className="App-footer">
         <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
       </div>
-      <div className="App-footer">
-        <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
-      </div>
     </>
   );
 }
 
+
 export default App;
+
+const SearchPreview = ({ title, index, handleInclusion, year }) => {
+  return (
+    <div
+      onClick={() => handleInclusion(title)}
+      className={`search-preview ${index == 0 ? "start" : ""}`}
+    >
+      <div className="first">
+        <p className="title">{title} ({year})</p>
+      </div>
+    </div>
+  );
+};
