@@ -41,21 +41,22 @@ function App() {
       return;
     }
     console.error(whishList);
-    alert('Recomendacao');   
+    alert('Recomendacao');
+    console.log(whishList)   
     
-    const response = await axios.post('http://localhost:3333/', JSON.parse(whishList));//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
+    const response = await axios.post('http://localhost:3333/', whishList);//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
     setRecommendation(response.data)
   }
 
   return (
     <>
       <div className="App">
-        <h1>INF-332 - Bemvindo ao sistema de recomendação</h1>
+        <h1>INF-332 - Bem Vindo ao Sistema de Recomendação</h1>
         <input type="text" id="search_field" width="50%" placeholder="Digite o nome do filmes, series e ..." />
         <button id="search_btn" onClick={handleInclusion}>Incluir</button>
       </div>
       <div className="App">
-        <ul>
+        <ul class="list_of_my_movies">
           {whishList.map((name, index) => {
             return <li key={ index }>{name}</li>;
           })}
