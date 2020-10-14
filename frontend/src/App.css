@@ -7,15 +7,8 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  min-height: 25vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,33 +30,49 @@
   }
 }
 
+.App-footer {
+  font-size: 15px;
+  position:absolute;
+  bottom:0;
+  width:100%;
+  text-align: center;
+}
+
+#App_Title {
+  height: auto;
+  margin-top: 45px;
+  margin-bottom: 45px;
+}
+
+#search_section {
+ height: 80px;
+}
+
 #search_field {
-  width: 300px;
-  height: 35px;
+  width: 70%;
+  height: 100%;
+  vertical-align: bottom;
+  border: none;
 }
 
 #search_btn {
-  width: 100px;
-  height: 40px;
-  color: black;
-  background-color: cornflowerblue;
-  text-align: center;
-  
+  width: auto;
+  height: 100%;
+  font-size: 25px;
 }
-#search_btn:hover{
-  background-color: blue;
+
+.search_input {
+  font-size: 32px;
+  border: 0;
+  padding: 0;
+  padding-left: 5px;
+  border-radius: 6px;
 }
 
 #recommendation_btn {
   width: 200px;
   height: 40px;
-  color: black;
-  background-color: green;
   text-align: center;
-}
-
-#recommendation_btn:hover {
-  background-color: #0dc90d;
 }
 
 .list_of_my_movies{
@@ -73,4 +82,12 @@
 }
 
 .btn-remove {
+}
+.app_title {
+  font-size: 120px;
+  line-height: 1.0;
+}
+
+.description {
+  font-size: 20px;
 }

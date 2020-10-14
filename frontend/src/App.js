@@ -86,13 +86,20 @@ function App() {
 
   return (
     <>
-      <div className="App">
-        <h1>INF-332 - Bem Vindo ao Sistema de Recomendação</h1>
-        <input type="text" id="search_field" width="50%" placeholder="Digite o nome do filmes, series e ..." />
+      <div className="App-header">
+        <img src="/images/what2watch_logo_white.png"></img>
+      </div>
+      <div className="App" id="App_Title">
+        <h1 className="app_title">Sistema de Recomendação</h1>
+        <span className="description">Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? Deixa com a gente, digite os 
+          filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar ;)</span>
+      </div>
+      <div className="App" id="search_section">
+      <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." />
         <button id="search_btn" onClick={handleInclusion}>Incluir</button>
       </div>
       <div className="App">
-        <ul class="list_of_my_movies">
+        <ul className="list_of_my_movies">
           {whishList.map((name, index) => {
             return <li key={ index }>{name} <button class="btn-delete" onClick={() => handleExclusion(index)}>X</button></li>;
           })}
@@ -103,6 +110,9 @@ function App() {
       </div>
       <div className="App">    
         {renderRecommendation()}
+      </div>
+      <div className="App-footer">
+        <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
       </div>
     </>
   );
