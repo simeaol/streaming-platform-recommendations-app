@@ -60,7 +60,28 @@ function App() {
       data: whishList,
     });//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
     const { provider } = response.data;
-    setRecommendation(`https://images.justwatch.com/icon/${provider}/s100`);
+    const providerInfo = await axios.get(`http://localhost:3333/providers/${provider}`);
+    console.log(`Recommended Provider=${providerInfo}`);
+    if(providerInfo.data){
+      const { icon_url } = providerInfo.data;
+      const id = icon_url.split('/')[2]
+      setRecommendation({name: providerInfo.data['clear_name'], image_url: `https://images.justwatch.com/icon/${id}/s100`});
+    }
+    
+  }
+
+  function renderRecommendation(){
+    if(recommended){
+      return(
+      <div>
+        <h5>Plataforma recomendado</h5>
+        <h6>{recommended.name}</h6>
+        <img src={recommended.image_url} alt=""/>
+      </div>
+      )
+    }else{
+      return <div></div>
+    }
   }
 
   return (
@@ -80,8 +101,8 @@ function App() {
       <div className="App">
         <button id="recommendation_btn" onClick={getRecommendation}>Obter recomendação</button>
       </div>
-      <div className="App">
-        <img src={recommended} alt=""/>
+      <div className="App">    
+        {renderRecommendation()}
       </div>
     </>
   );
