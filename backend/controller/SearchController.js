@@ -1,5 +1,6 @@
 const JustWatch = require("justwatch-api");
 const bodyParser = require("body-parser");
+const ProviderIds = require('../utils/platformids_utils');
 
 module.exports = {
     /**Find all title with the similarity */
@@ -64,9 +65,9 @@ module.exports = {
             var justwatch = new JustWatch({locale:'pt_BR'});
             for(title of data){
                 var result = await justwatch.search({query: title});
-                for(item of result['items']){
-                    console.log(`${item['title'].toLowerCase()} == ${title.toLowerCase()}`);
-                    if(item['title'].toLowerCase().trim() === title.toLowerCase().trim()){ //Given title equals to requested
+                for(item of result['items']){                                       
+                    if(item['title'].toLowerCase().trim() == title.toLowerCase().trim()){ //Given title equals to requested
+                        console.info(`${item['title'].toLowerCase()} == ${title.toLowerCase()}`);
                         console.log(`Offers  for ${title}. \n ${JSON.stringify(item['offers'])}`);
                         if(type){
                             for(offer of item['offers']){
@@ -86,7 +87,6 @@ module.exports = {
                             for(offer of item['offers']){
                                 console.info(`${offer}`)
                                 const { provider_id } = offer;
-                                console.info(`Adding element to ${provider_id}`);
                                 const element = providers.get(provider_id);
                                 if(element){
                                     providers.set(offer['provider_id'], element+1);
@@ -103,8 +103,16 @@ module.exports = {
             if(providers.size == 0){
                 return resp.status(404).end('Recommendation NOT FOUND');
             }  
-            console.log(providers)
+            console.log(providers);
             const [provider_id, total] = [...providers.entries()].reduce((a, e) => e[1] > a[1] ? e : a);
+            const found = ProviderIds.BR_PROVIDERS.find(i => i == provider_id);
+            if(!found){
+                for(p of providers.keys()){
+                    if(ProviderIds.BR_PROVIDERS.find(i => i == p)){
+                        return resp.json({"provider":p, "total" :0}); 
+                    }
+                }
+            }
             return resp.json({"provider":provider_id, "total" :total});     
         }
    
