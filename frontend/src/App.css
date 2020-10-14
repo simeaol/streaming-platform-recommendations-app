@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -32,6 +33,8 @@
 
 .App-footer {
   font-size: 15px;
+  position:relative;
+  bottom:0;
   width:100%;
   text-align: center;
   line-height: 40px;
@@ -133,4 +136,34 @@
 
 .btn_remove {
   margin: 0;
+}
+
+.recommended_img {
+  height: 150px;
+  width: 150px;
+}
+
+.list-item {
+  display: inline-block;
+  left: 0px;
+  color: aqua;
+  width: 100%;
+  height: 90%;
+  align-items: center;
+}
+
+.list-item ul {
+  height: 300px;
+  color: aliceblue;
+  list-style-type: none;
+}
+
+.list-item li {
+  padding-left: 5px;
+  margin-top: 20px;
+}
+
+.list-item ul a {
+  text-align: center;
+  color: aliceblue;
 }
