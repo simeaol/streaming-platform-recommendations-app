@@ -7,6 +7,8 @@ WORKDIR /usr/src/app
 
 ENV PATH /app/node_modules/.bin:$PATH
 
+ENV REACT_APP_BACKEND_SVC=http://173.193.120.98:30333
+
 COPY package.json ./
 
 COPY package-lock.json ./
