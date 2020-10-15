@@ -1,0 +1,9 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: recommendation-configmap
+  namespace: hackathon 
+
+data:
+  backend-service: backend-service

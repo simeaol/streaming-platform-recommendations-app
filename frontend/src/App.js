@@ -4,7 +4,7 @@ import './App.css';
 
 function App() {
 
-  const BACKEND_SVC = process.env.BACKEND_SVC || 'http://localhost:3333';
+  const BACKEND_SVC = process.env.REACT_APP_BACKEND_SVC || 'http://localhost:3333';
 
   var [whishList, setList] = useState([])
   var [recommended, setRecommendation] = useState({})
@@ -16,12 +16,16 @@ function App() {
       let movie = e.target.value;
 
       const response = await getTitles(movie);
-      let itemTitles = response['items'].slice(1, 6);
+      let itemTitles = response['items'];
       setPossibleTitles(itemTitles);
       let titles = itemTitles.map((i) =>  i.title);
 
       console.log(`Possible item: ${titles}`);
     }
+  }
+
+  async function handleSearchBlur(){
+    setPossibleTitles([]);
   }
 
   function handleInclusion(itemTitle) {
@@ -37,6 +41,8 @@ function App() {
       setPossibleTitles([]);
     }
     console.log(whishList)
+
+    setVisible("recommendation_btn")
   }
 
   function handleExclusion(index) {
@@ -73,6 +79,8 @@ function App() {
     }
     console.info(whishList);
     alert('Recomendacao');
+    setVisible("platform");
+    setVisible("recommended");
     
     try{
       const response = await axios.post(BACKEND_SVC, {
@@ -112,25 +120,30 @@ function App() {
     }
   }
 
+  async function setVisible(id){
+    document.getElementById(id).style.visibility = "visible";
+  }
+
   function renderRecommendation() {
     if (recommended) {
       return (
-        <div>
-          <div>
-            <h5>Plataforma recomendada</h5>
+        <div className="App">
+          <div id="platform">
+            <p className="section_title">Baseado no seu gosto, essa é sua plataforma ideal:</p>
             <h6>{recommended.name}</h6>
             <img src={recommended.image_url} alt="" />
           </div>
-          <div>
-            <h2>Filmes e series que você pode gostar:</h2>
-            <div className="list-item">
-              <ul>
+          <div id="recommended">
+            <p className="section_title">Filmes e series que você pode gostar:</p>
+            <div>
+              <ul className="list_of_recommendeds">
                   {movies.map((data, index) => {
                   return (
-                    <li className="list_item" key={index}>                     
-                      <div>
+                    <li className="recommended_item" key={index}>                     
+                      <div className="recommended_title">
                         <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
-                        <a>{data['title']}</a>
+                        <br></br>
+                        <span className="recommended_name">{data['title']}</span> 
                       </div>
                      
                     </li>
@@ -165,17 +178,25 @@ function App() {
       </div>
       <div className="App" id="App_Title">
         <h1 className="app_title">Sistema de Recomendação</h1>
-        <span className="description">Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? Deixa com a gente, digite os
-          filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar ;)</span>
+        <span className="description">
+          Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? 
+          <br></br> 
+          Deixa com a gente, digite os filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar.
+          <br></br>
+          Ahh, e ainda recomendados uns filminhos 😉
+        </span>
       </div>
       <div className="App" id="search_section">
         <div className="search-form">
-          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange}/>
-          <button id="search_btn" onClick={() => handleInclusion(null)}>Incluir</button>
+          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange} onFocus={handleChange} onBlur={handleSearchBlur}/>
+          <button id="search_btn" onClick={() => handleInclusion(null)}><img src="/images/add_white_18dp.png"></img></button>
         </div>
-        {possibleTitles.length > 0 ? (
-          <div className="search-results">{renderSearchPreview}</div>
-        ) : null}
+        <div className="search-results-p">
+          {possibleTitles.length > 0 ? (
+            <div className="search-results">{renderSearchPreview}</div>
+          ) : null}
+          <div></div>
+        </div>
       </div>
       <div className="App" id="my_movies_section">
         <ul className="list_of_my_movies">
