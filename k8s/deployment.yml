@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-app
+  namespace: hackathon
+  labels:
+    app: backend-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-app
+  template:
+    metadata:
+      labels:
+        app: backend-app
+    spec:
+      containers:
+      - name: backend-app
+        image: simeaolm/recommendation-backend:prod
+        ports:
+        - containerPort: 3333
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: hackathon
+spec:
+  selector:
+    app: backend-app
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 3333
+      targetPort: 3333
+      nodePort: 30333
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app
+  namespace: hackathon
+  labels:
+    app: frontend-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-app
+  template:
+    metadata:
+      labels:
+        app: frontend-app
+    spec:
+      containers:
+      - name: frontend-app
+        image: simeaolm/recommendation-frontend:v1
+        ports:
+        - containerPort: 80
+        env:
+        - name: REACT_APP_BACKEND_SVC
+          valueFrom:
+            configMapKeyRef:
+              name: recommendation-configmap
+              key: backend-service
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: hackathon
+spec:
+  selector:
+    app: frontend-app
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+      nodePort: 30334
