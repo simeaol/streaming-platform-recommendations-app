@@ -24,6 +24,10 @@ function App() {
     }
   }
 
+  async function handleSearchBlur(){
+    setPossibleTitles([]);
+  }
+
   function handleInclusion(itemTitle) {
     let title = document.getElementById("search_field").value;
     if (itemTitle !== null) {
@@ -37,6 +41,8 @@ function App() {
       setPossibleTitles([]);
     }
     console.log(whishList)
+
+    setVisible("recommendation_btn")
   }
 
   function handleExclusion(index) {
@@ -73,6 +79,8 @@ function App() {
     }
     console.info(whishList);
     alert('Recomendacao');
+    setVisible("platform");
+    setVisible("recommended");
     
     try{
       const response = await axios.post(BACKEND_SVC, {
@@ -112,16 +120,20 @@ function App() {
     }
   }
 
+  async function setVisible(id){
+    document.getElementById(id).style.visibility = "visible";
+  }
+
   function renderRecommendation() {
     if (recommended) {
       return (
         <div className="App">
-          <div>
+          <div id="platform">
             <p className="section_title">Baseado no seu gosto, essa é sua plataforma ideal:</p>
             <h6>{recommended.name}</h6>
             <img src={recommended.image_url} alt="" />
           </div>
-          <div>
+          <div id="recommended">
             <p className="section_title">Filmes e series que você pode gostar:</p>
             <div>
               <ul className="list_of_recommendeds">
@@ -169,17 +181,22 @@ function App() {
         <span className="description">
           Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? 
           <br></br> 
-          Deixa com a gente, digite os filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar ;)
+          Deixa com a gente, digite os filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar.
+          <br></br>
+          Ahh, e ainda recomendados uns filminhos 😉
         </span>
       </div>
       <div className="App" id="search_section">
         <div className="search-form">
-          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange}/>
+          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange} onFocus={handleChange} onBlur={handleSearchBlur}/>
           <button id="search_btn" onClick={() => handleInclusion(null)}><img src="/images/add_white_18dp.png"></img></button>
         </div>
-        {possibleTitles.length > 0 ? (
-          <div className="search-results">{renderSearchPreview}</div>
-        ) : null}
+        <div className="search-results-p">
+          {possibleTitles.length > 0 ? (
+            <div className="search-results">{renderSearchPreview}</div>
+          ) : null}
+          <div></div>
+        </div>
       </div>
       <div className="App" id="my_movies_section">
         <ul className="list_of_my_movies">

@@ -33,7 +33,7 @@
 
 .App-footer {
   font-size: 15px;
-  position:relative;
+  position: relative;
   bottom:0;
   width:100%;
   text-align: center;
@@ -53,25 +53,25 @@
 }
 
 .search-form {
-  display: flex;
+  display: grid;
+  grid-template-columns: 6fr 1fr;
   position: relative;
 }
 
 #search_field {
-  flex: 6;
   height: 80px;
   vertical-align: bottom;
-  border: none;
+  border: 6px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 }
 
 #search_btn {
-  height: 80px;
+ height: 80px;
   font-size: 30px;
-  position: absolute;
-  right: 0;
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 0px;
-  font-weight: 500;
+  margin: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0
 }
 
 .search_input {
@@ -91,6 +91,11 @@
   overflow-y: scroll;
   background:white;
   opacity: 90%;
+}
+
+.search-results-p {
+  display: grid;
+  grid-template-columns: 6fr 1fr;
 }
 
 .search-preview {
@@ -206,4 +211,8 @@
 .section_title {
   font-size: 20px;
   font-weight: 400;
+}
+
+#platform, #recommended, #recommendation_btn {
+  visibility: hidden;
 }
