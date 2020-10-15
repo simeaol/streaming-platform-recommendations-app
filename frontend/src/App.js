@@ -8,18 +8,41 @@ function App() {
 
   var [whishList, setList] = useState([])
   var [recommended, setRecommendation] = useState({})
+  const [possibleTitles, setPossibleTitles] = useState([]);
   var [movies, setMovies] = useState([])
 
-  function handleInclusion() {
-    const title = document.getElementById("search_field").value
+  async function handleChange(e) {
+    if (e.target.value.length >= 3) {
+      let movie = e.target.value;
+
+      const response = await getTitles(movie);
+      let itemTitles = response['items'];
+      setPossibleTitles(itemTitles);
+      let titles = itemTitles.map((i) =>  i.title);
+
+      console.log(`Possible item: ${titles}`);
+    }
+  }
+
+  async function handleSearchBlur(){
+    setPossibleTitles([]);
+  }
+
+  function handleInclusion(itemTitle) {
+    let title = document.getElementById("search_field").value;
+    if (itemTitle !== null) {
+      title = itemTitle;
+    }
     console.log(title)
 
     if (title) {
       setList([...whishList, title])
       document.getElementById("search_field").value = ''
+      setPossibleTitles([]);
     }
     console.log(whishList)
 
+    setVisible("recommendation_btn")
   }
 
   function handleExclusion(index) {
@@ -56,6 +79,8 @@ function App() {
     }
     console.info(whishList);
     alert('Recomendacao');
+    setVisible("platform");
+    setVisible("recommended");
     
     try{
       const response = await axios.post(BACKEND_SVC, {
@@ -95,25 +120,30 @@ function App() {
     }
   }
 
+  async function setVisible(id){
+    document.getElementById(id).style.visibility = "visible";
+  }
+
   function renderRecommendation() {
     if (recommended) {
       return (
-        <div>
-          <div>
-            <h5>Plataforma recomendada</h5>
+        <div className="App">
+          <div id="platform">
+            <p className="section_title">Baseado no seu gosto, essa é sua plataforma ideal:</p>
             <h6>{recommended.name}</h6>
             <img src={recommended.image_url} alt="" />
           </div>
-          <div>
-            <h2>Filmes e series que você pode gostar:</h2>
-            <div className="list-item">
-              <ul>
+          <div id="recommended">
+            <p className="section_title">Filmes e series que você pode gostar:</p>
+            <div>
+              <ul className="list_of_recommendeds">
                   {movies.map((data, index) => {
                   return (
-                    <li className="list_item" key={index}>                     
-                      <div>
+                    <li className="recommended_item" key={index}>                     
+                      <div className="recommended_title">
                         <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
-                        <a>{data['title']}</a>
+                        <br></br>
+                        <span className="recommended_name">{data['title']}</span> 
                       </div>
                      
                     </li>
@@ -129,6 +159,18 @@ function App() {
     }
   }
 
+  var renderSearchPreview = possibleTitles.map(({ title, original_release_year }, index) => {
+    return (
+      <SearchPreview
+        key={index}
+        handleInclusion={handleInclusion}
+        index={index}
+        title={title}
+        year={original_release_year}
+      />
+    );
+  });
+
   return (
     <>
       <div className="App-header">
@@ -136,12 +178,25 @@ function App() {
       </div>
       <div className="App" id="App_Title">
         <h1 className="app_title">Sistema de Recomendação</h1>
-        <span className="description">Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? Deixa com a gente, digite os
-          filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar ;)</span>
+        <span className="description">
+          Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? 
+          <br></br> 
+          Deixa com a gente, digite os filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar.
+          <br></br>
+          Ahh, e ainda recomendados uns filminhos 😉
+        </span>
       </div>
       <div className="App" id="search_section">
-        <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." />
-        <button id="search_btn" onClick={handleInclusion}>Incluir</button>
+        <div className="search-form">
+          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange} onFocus={handleChange} onBlur={handleSearchBlur}/>
+          <button id="search_btn" onClick={() => handleInclusion(null)}><img src="/images/add_white_18dp.png"></img></button>
+        </div>
+        <div className="search-results-p">
+          {possibleTitles.length > 0 ? (
+            <div className="search-results">{renderSearchPreview}</div>
+          ) : null}
+          <div></div>
+        </div>
       </div>
       <div className="App" id="my_movies_section">
         <ul className="list_of_my_movies">
@@ -163,4 +218,18 @@ function App() {
   );
 }
 
+
 export default App;
+
+const SearchPreview = ({ title, index, handleInclusion, year }) => {
+  return (
+    <div
+      onClick={() => handleInclusion(title)}
+      className={`search-preview ${index == 0 ? "start" : ""}`}
+    >
+      <div className="first">
+        <p className="title">{title} ({year})</p>
+      </div>
+    </div>
+  );
+};
