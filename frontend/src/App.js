@@ -4,7 +4,7 @@ import './App.css';
 
 function App() {
 
-  const BACKEND_SVC = process.env.BACKEND_SVC || 'http://localhost:3333';
+  const BACKEND_SVC = process.env.REACT_APP_BACKEND_SVC || 'http://localhost:3333';
 
   var [whishList, setList] = useState([])
   var [recommended, setRecommendation] = useState({})
