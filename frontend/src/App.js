@@ -16,8 +16,9 @@ function App() {
       let movie = e.target.value;
 
       const response = await getTitles(movie);
-      setPossibleTitles(response['items'].slice(1, 3));
-      let titles = response['items'].slice(1, 3).map((i) =>  i.title);
+      let itemTitles = response['items'].slice(1, 6);
+      setPossibleTitles(itemTitles);
+      let titles = itemTitles.map((i) =>  i.title);
 
       console.log(`Possible item: ${titles}`);
     }
