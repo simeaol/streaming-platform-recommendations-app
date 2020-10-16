@@ -81,7 +81,6 @@ function App() {
       return;
     }
     console.info(whishList);
-    alert('Recomendacao');
     setVisible("platform");
     setVisible("recommended");
 
