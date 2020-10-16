@@ -63,7 +63,9 @@ module.exports = {
         if(data){
             var providers = new Map();
             var justwatch = new JustWatch({locale:'pt_BR'});
-            for(title of data){
+            for(item of data){
+                let title = item['t'];
+                console.info(`Title item = ${title}`);
                 var result = await justwatch.search({query: title});
                 for(item of result['items']){                                       
                     if(item['title'].toLowerCase().trim() == title.toLowerCase().trim()){ //Given title equals to requested

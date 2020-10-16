@@ -13,7 +13,7 @@ routes.get('/providers', SearchController.findProviders);
 routes.get('/providers/:id', SearchController.findProviderById);
 
 routes.get('/recommendation/movie', jsonParser, RecommendationController.movieRecommendation);
-routes.get('/recommendation/serie', jsonParser, bodyParser, RecommendationController.tvRecommendation);
+routes.get('/recommendation/serie', jsonParser, RecommendationController.tvRecommendation);
 
 
 module.exports = routes;

@@ -141,11 +141,12 @@
 }
 
 .list_of_recommendeds{
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   text-align: center;
   list-style-type: none;
   text-align: center;
+  justify-content: center;
 }
 
 .list_item {

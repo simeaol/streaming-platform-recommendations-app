@@ -10,6 +10,7 @@ function App() {
   var [recommended, setRecommendation] = useState({})
   const [possibleTitles, setPossibleTitles] = useState([]);
   var [movies, setMovies] = useState([])
+  var [shows, setShows] = useState([])
 
   async function handleChange(e) {
     if (e.target.value.length >= 3) {
@@ -28,15 +29,17 @@ function App() {
     setPossibleTitles([]);
   }
 
-  function handleInclusion(itemTitle) {
+  function handleInclusion(itemTitle, itemType = 'movie') {
     let title = document.getElementById("search_field").value;
+    let type = itemType;
     if (itemTitle !== null) {
       title = itemTitle;
     }
-    console.log(title)
+    console.log(`${title} - ${type}`)
 
     if (title) {
-      setList([...whishList, title])
+      let newList = whishList.concat([{t: title, ty: type}]);
+      setList(newList)
       document.getElementById("search_field").value = ''
       setPossibleTitles([]);
     }
@@ -110,13 +113,31 @@ function App() {
   }
 
   async function handleRecommendedTitles(){
-    const response = await axios.get(`${BACKEND_SVC}/recommendation/movie/?title=${whishList[0]}`);
-    console.log(`Recommendations: ${response.data}`);
-    if(response.status == 200){
-      const { data } = response;
-      setMovies(data);
-    }else{
-      setMovies({});
+    let firstMovie = whishList.find((i) => i.ty === 'movie');
+    let firstShow = whishList.find((i) => i.ty === 'show');
+    
+    if (firstMovie) {
+      console.log(firstMovie)
+      const responseMovie = await axios.get(`${BACKEND_SVC}/recommendation/movie/?title=${firstMovie['t']}`);
+      console.log(`Movie Recommendations: ${responseMovie.data}`);
+      if (responseMovie.status === 200) {
+        const { data } = responseMovie;
+        setMovies(data);
+      } else {
+        setMovies({});
+      }
+    }
+    
+    if (firstShow) {
+      console.log(firstShow)
+      const responseShow = await axios.get(`${BACKEND_SVC}/recommendation/serie/?title=${firstShow['t']}`);
+      console.log(`Shows Recommendations: ${responseShow.data}`);
+      if (responseShow.status === 200) {
+        const { data } = responseShow;
+        setShows(data);
+      } else {
+        setShows({});
+      }
     }
   }
 
@@ -134,23 +155,42 @@ function App() {
             <img src={recommended.image_url} alt="" />
           </div>
           <div id="recommended">
-            <p className="section_title">Filmes e series que você pode gostar:</p>
-            <div>
-              <ul className="list_of_recommendeds">
-                  {movies.map((data, index) => {
-                  return (
-                    <li className="recommended_item" key={index}>                     
-                      <div className="recommended_title">
-                        <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
-                        <br></br>
-                        <span className="recommended_name">{data['title']}</span> 
-                      </div>
-                     
-                    </li>
-                  )
-                })}
-              </ul>
-        </div>
+            { movies.length > 0 ?
+            ( <div>
+                <h3 className="section_title">Filmes que você pode gostar:</h3>
+                <ul className="list_of_recommendeds">
+                    {movies.map((data, index) => {
+                    return (
+                      <li className="recommended_item" key={index}>                     
+                        <div className="recommended_title">
+                          <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
+                          <br></br>
+                          <span className="recommended_name">{data['title']}</span> 
+                        </div>
+                      
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>) : null }
+            { shows.length > 0 ?
+            ( <div>
+                <h3 className="section_title">Séries que você pode gostar:</h3>
+                <ul className="list_of_recommendeds">
+                    {shows.map((data, index) => {
+                    return (
+                      <li className="recommended_item" key={index}>                     
+                        <div className="recommended_title">
+                          <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
+                          <br></br>
+                          <span className="recommended_name">{data['title']}</span> 
+                        </div>
+                      
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>) : null }
           </div>
         </div>
       );
@@ -159,7 +199,7 @@ function App() {
     }
   }
 
-  var renderSearchPreview = possibleTitles.map(({ title, original_release_year }, index) => {
+  var renderSearchPreview = possibleTitles.map(({ title, original_release_year, object_type }, index) => {
     return (
       <SearchPreview
         key={index}
@@ -167,6 +207,7 @@ function App() {
         index={index}
         title={title}
         year={original_release_year}
+        type={object_type}
       />
     );
   });
@@ -188,7 +229,7 @@ function App() {
       </div>
       <div className="App" id="search_section">
         <div className="search-form">
-          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange} onFocus={handleChange} onBlur={handleSearchBlur}/>
+          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange}/>
           <button id="search_btn" onClick={() => handleInclusion(null)}><img src="/images/add_white_18dp.png"></img></button>
         </div>
         <div className="search-results-p">
@@ -200,8 +241,8 @@ function App() {
       </div>
       <div className="App" id="my_movies_section">
         <ul className="list_of_my_movies">
-          {whishList.map((name, index) => {
-            return <li className="list_item" key={index}>{name} <button className="btn_remove" onClick={() => handleExclusion(index)}>X</button></li>;
+          {whishList.map((value, index) => {
+            return <li className="list_item" key={index}>{value['t']} <button className="btn_remove" onClick={() => handleExclusion(index)}>X</button></li>;
           })}
         </ul>
       </div>
@@ -221,14 +262,18 @@ function App() {
 
 export default App;
 
-const SearchPreview = ({ title, index, handleInclusion, year }) => {
+const SearchPreview = ({ title, index, handleInclusion, year, type }) => {
+  function getType(type) {
+    return (type === 'movie') ? 'Filme' : 'Série';
+  }
+
   return (
     <div
-      onClick={() => handleInclusion(title)}
+      onClick={() => handleInclusion(title, type)}
       className={`search-preview ${index == 0 ? "start" : ""}`}
     >
       <div className="first">
-        <p className="title">{title} ({year})</p>
+        <p className="title">{title} ({year}) - {getType(type)}</p>
       </div>
     </div>
   );
