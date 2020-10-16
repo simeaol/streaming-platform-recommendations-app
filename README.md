@@ -5,7 +5,7 @@ This project is part of hackathon from INF-332 made by team-7.
 
 Our purpose is to provide the best movie, series and tv's platform recommendation for everyone and ofcourse, for free.
 
-Check it out [here](http://what2watch.pratica.me/) or [here](http://hackathon.simeao.com.br/)
+Check it out [here](http://what2watch.pratica.me/) or [here](http://what2watch.simeao.com.br/)
 
 ## The Stack
 We love all programming language without discrimination, but the way. For instance we choose javascript frameworks ( *NodeJS & ReactJS* ) to enhance the team performance and also to speed up prototype and create a MVP always focusing on javascript simplicity.
