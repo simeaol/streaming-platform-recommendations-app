@@ -19,13 +19,13 @@ function App() {
       const response = await getTitles(movie);
       let itemTitles = response['items'];
       setPossibleTitles(itemTitles);
-      let titles = itemTitles.map((i) =>  i.title);
+      let titles = itemTitles.map((i) => i.title);
 
       console.log(`Possible item: ${titles}`);
     }
   }
 
-  async function handleSearchBlur(){
+  async function handleSearchBlur() {
     setPossibleTitles([]);
   }
 
@@ -38,7 +38,7 @@ function App() {
     console.log(`${title} - ${type}`)
 
     if (title) {
-      let newList = whishList.concat([{t: title, ty: type}]);
+      let newList = whishList.concat([{ t: title, ty: type }]);
       setList(newList)
       document.getElementById("search_field").value = ''
       setPossibleTitles([]);
@@ -59,7 +59,7 @@ function App() {
     }
   }
 
-  async function getTitles (title) {
+  async function getTitles(title) {
     const { data } = await axios.get(`${BACKEND_SVC}/?title=${title}`);
 
     console.log(`request result = ${JSON.stringify(data)}`);
@@ -84,38 +84,38 @@ function App() {
     alert('Recomendacao');
     setVisible("platform");
     setVisible("recommended");
-    
-    try{
+
+    try {
       const response = await axios.post(BACKEND_SVC, {
         type: "",//TODO: monitization type includes: flatrate, ... if empty, all types will be considered!
         data: whishList,
       });//TODO: Not following RESTful pattern. This should be replaced to get method with query-params
-      if(response.status != 200){
+      if (response.status != 200) {
         alert(providerInfo.body);
         return;
       }
       const { provider } = response.data;
       const providerInfo = await axios.get(`${BACKEND_SVC}/providers/${provider}`);
-      if(providerInfo.status != 200){
+      if (providerInfo.status != 200) {
         alert(providerInfo.body);
         return;
       }
       console.log(`Recommended Provider=${providerInfo}`);
-      if(providerInfo.data){
+      if (providerInfo.data) {
         const { icon_url } = providerInfo.data;
         const id = icon_url.split('/')[2]
-        setRecommendation({name: providerInfo.data['clear_name'], image_url: `https://images.justwatch.com/icon/${id}/s100`});
+        setRecommendation({ name: providerInfo.data['clear_name'], image_url: `https://images.justwatch.com/icon/${id}/s100` });
       }
 
-    }catch(error){
+    } catch (error) {
       alert(error);
-    }   
+    }
   }
 
-  async function handleRecommendedTitles(){
+  async function handleRecommendedTitles() {
     let firstMovie = whishList.find((i) => i.ty === 'movie');
     let firstShow = whishList.find((i) => i.ty === 'show');
-    
+
     if (firstMovie) {
       console.log(firstMovie)
       const responseMovie = await axios.get(`${BACKEND_SVC}/recommendation/movie/?title=${firstMovie['t']}`);
@@ -127,7 +127,7 @@ function App() {
         setMovies({});
       }
     }
-    
+
     if (firstShow) {
       console.log(firstShow)
       const responseShow = await axios.get(`${BACKEND_SVC}/recommendation/serie/?title=${firstShow['t']}`);
@@ -141,62 +141,8 @@ function App() {
     }
   }
 
-  async function setVisible(id){
+  async function setVisible(id) {
     document.getElementById(id).style.visibility = "visible";
-  }
-
-  function renderRecommendation() {
-    if (recommended) {
-      return (
-        <div className="App">
-          <div id="platform">
-            <p className="section_title">Baseado no seu gosto, essa é sua plataforma ideal:</p>
-            <h6>{recommended.name}</h6>
-            <img src={recommended.image_url} alt="" />
-          </div>
-          <div id="recommended">
-            { movies.length > 0 ?
-            ( <div>
-                <h3 className="section_title">Filmes que você pode gostar:</h3>
-                <ul className="list_of_recommendeds">
-                    {movies.map((data, index) => {
-                    return (
-                      <li className="recommended_item" key={index}>                     
-                        <div className="recommended_title">
-                          <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
-                          <br></br>
-                          <span className="recommended_name">{data['title']}</span> 
-                        </div>
-                      
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>) : null }
-            { shows.length > 0 ?
-            ( <div>
-                <h3 className="section_title">Séries que você pode gostar:</h3>
-                <ul className="list_of_recommendeds">
-                    {shows.map((data, index) => {
-                    return (
-                      <li className="recommended_item" key={index}>                     
-                        <div className="recommended_title">
-                          <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
-                          <br></br>
-                          <span className="recommended_name">{data['title']}</span> 
-                        </div>
-                      
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>) : null }
-          </div>
-        </div>
-      );
-    } else {
-      return <div></div>
-    }
   }
 
   var renderSearchPreview = possibleTitles.map(({ title, original_release_year, object_type }, index) => {
@@ -220,8 +166,8 @@ function App() {
       <div className="App" id="App_Title">
         <h1 className="app_title">Sistema de Recomendação</h1>
         <span className="description">
-          Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar? 
-          <br></br> 
+          Netflix, Amazon Prime, Disney Plus, etc... Não sabe qual assinar?
+          <br></br>
           Deixa com a gente, digite os filmes e séries que você gosta e vamos te dizer qual a melhor plataforma pra você assinar.
           <br></br>
           Ahh, e ainda recomendados uns filminhos 😉
@@ -229,7 +175,7 @@ function App() {
       </div>
       <div className="App" id="search_section">
         <div className="search-form">
-          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange}/>
+          <input type="text" id="search_field" className="search_input" placeholder="Digite o nome do filmes, series, etc..." onChange={handleChange} />
           <button id="search_btn" onClick={() => handleInclusion(null)}><img src="/images/add_white_18dp.png"></img></button>
         </div>
         <div className="search-results-p">
@@ -247,11 +193,9 @@ function App() {
         </ul>
       </div>
       <div className="App">
-        <button id="recommendation_btn" onClick={() => {getRecommendation(); handleRecommendedTitles();}}>Obter recomendação</button>
+        <button id="recommendation_btn" onClick={() => { getRecommendation(); handleRecommendedTitles(); }}>Obter recomendação</button>
       </div>
-      <div className="App">
-        {renderRecommendation()}
-      </div>
+      <RecommendationResult recommended={recommended} movies={movies} shows={shows} />
       <div className="App-footer">
         <span>Todos direitos reservados - <a href="#">Grupo 7</a> - INF-332</span>
       </div>
@@ -278,3 +222,40 @@ const SearchPreview = ({ title, index, handleInclusion, year, type }) => {
     </div>
   );
 };
+
+function RecommendationResult({ recommended, movies, shows }) {
+  return (
+    <div className="App">
+      <div id="platform">
+        <p className="section_title">Baseado no seu gosto, essa é sua plataforma ideal:</p>
+        <h6>{recommended.name}</h6>
+        <img src={recommended.image_url} alt="" />
+      </div>
+      <div id="recommended">
+        {movies.length > 0 ? <Recommendations type={'Filmes'} list={movies} /> : null }
+        {shows.length > 0 ? <Recommendations type={'Séries'} list={shows} /> : null}
+      </div>
+    </div>
+  );
+}
+
+function Recommendations({ type, list }) {
+  return (
+    <div>
+      <h3 className="section_title">{type} que você pode gostar:  </h3>
+      <ul className="list_of_recommendeds">
+        {list.map((data, index) => {
+          return (
+            <li className="recommended_item" key={index}>
+              <div className="recommended_title">
+                <img className="recommended_img" src={`https://image.tmdb.org/t/p/original${data['poster_path']}`} title={data['title']} alt="" />
+                <br></br>
+                <span className="recommended_name">{data['title']}</span>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  );
+}
