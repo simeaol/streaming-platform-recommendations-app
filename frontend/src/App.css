@@ -193,6 +193,12 @@
   flex-grow: 1;
 }
 
+@media (min-width: 48rem) {
+  .list_of_recommendeds {
+    padding: 1em;
+  }
+}
+
 .list_item {
   margin-right: 20px;
   margin-top: 10px;
