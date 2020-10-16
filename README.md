@@ -19,16 +19,21 @@ So take a look at the diagram bellow to deep dive into our platform architecture
 
 ### Pretty easy, doesn't it ?
 
+#### `Note: Why we are not using INGRESS or NGINX-INGRESS CONTROLLER in Kubernetes ?`
+> IBM Kubernetes Service Free tier doesn't offers this capability.
+
 #
 
 ## For Developers
-### Running apps in local machine using docker-compose
-### `docker-compose -f docker-compose.yml up -d --build`
+#### Running apps in local machine using docker-compose
+> `docker-compose -f docker-compose.yml up -d --build`
 
 ### You can also run all apps and services one-by-one
 To do that, please `cd` in backend and fronend folder and run the following commands:
-### `docker build -t {IMAGE_NAME} .`
-### `docker run --name {container-name} -p {HOST_PORT}:{CONTAINER_PORT} {IMAGE_NAME}`
+
+> `docker build -t {IMAGE_NAME} .`
+
+> `docker run --name {container-name} -p {HOST_PORT}:{CONTAINER_PORT} {IMAGE_NAME}`
 
 Please, check Dockerfile and see which PORT(s) each service/app uses.
 
