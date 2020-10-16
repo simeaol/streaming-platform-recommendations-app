@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
   --bgColor: #1a1715;
   --primaryColor: #e33535;
@@ -6,6 +10,7 @@ html {
   --btnOnClick: #e33535;
   background-color: var(--bgColor);
   color: white;
+  font-size: 16px;
 }
 
 body {

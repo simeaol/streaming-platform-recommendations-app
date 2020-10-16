@@ -1,6 +1,24 @@
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
+}
 
 .App {
   text-align: center;
+}
+
+@media (max-width: 576px) {
+  .App {
+    padding: 0 0.9375rem;
+  }
 }
 
 .App-logo {
@@ -9,13 +27,16 @@
 }
 
 .App-header {
-  min-height: 25vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
+  margin: 1.875em auto;
+}
+
+@media (max-width: 36rem) {
+  .App-header > img {
+    height: 25vh;
+  }
 }
 
 .App-link {
@@ -32,24 +53,37 @@
 }
 
 .App-footer {
-  font-size: 15px;
+  font-size: 0.9375em;
   position: relative;
-  bottom:0;
-  width:100%;
+  bottom: 0;
+  width: 100%;
   text-align: center;
   line-height: 40px;
 }
 
 #App_Title {
-  height: auto;
-  margin-top: 45px;
-  margin-bottom: 45px;
+  margin: 1.875rem auto;
+}
+
+@media (max-width: 36rem) {
+  #App_Title {
+    text-align: left;
+  }
+
+  #App_Title h1 {
+    font-size: 3em;
+  }
 }
 
 #search_section {
- display: flex;
- flex-direction: column;
- padding: 0 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 48rem) {
+  #search_section {
+    padding: 0 12.5rem;
+  }
 }
 
 .search-form {
@@ -67,19 +101,25 @@
 }
 
 #search_btn {
- height: 80px;
+  height: 80px;
   font-size: 30px;
   margin: 0;
   border-bottom-left-radius: 0;
-  border-top-left-radius: 0
+  border-top-left-radius: 0;
 }
 
 .search_input {
-  font-size: 32px;
   border: 0;
   padding: 0;
   padding-left: 5px;
   border-radius: 6px;
+  font-size: 1.125em;
+}
+
+@media (min-width: 48rem) {
+  .search_input {
+    font-size: 2em;
+  }
 }
 
 .search-results {
@@ -89,7 +129,7 @@
   flex-direction: column;
   max-height: 200px;
   overflow-y: scroll;
-  background:white;
+  background: white;
 }
 
 .search-results-p {
@@ -128,7 +168,7 @@
   width: 100%;
 }
 
-.list_of_my_movies{
+.list_of_my_movies {
   width: 80%;
   display: inline-flex;
   flex-wrap: wrap;
@@ -139,7 +179,7 @@
   margin-top: 0;
 }
 
-.list_of_recommendeds{
+.list_of_recommendeds {
   display: flex;
   flex-wrap: wrap;
   text-align: center;
@@ -149,18 +189,18 @@
 }
 
 .list_item {
- margin-right: 20px;
- margin-top: 10px;
+  margin-right: 20px;
+  margin-top: 10px;
 }
 
 .recommended_item {
   margin: 10px;
   padding: 0;
- }
+}
 
 .app_title {
   font-size: 4rem;
-  line-height: 1.0;
+  line-height: 1;
 }
 
 .description {
@@ -213,6 +253,8 @@
   font-weight: 400;
 }
 
-#platform, #recommended, #recommendation_btn {
+#platform,
+#recommended,
+#recommendation_btn {
   visibility: hidden;
 }
