@@ -20,6 +20,6 @@ services:
       context: .
       dockerfile: frontend/Dockerfile
     environment:
-      - BACKEND_SVC=http://localhost:3333
+      - REACT_APP_BACKEND_SVC=http://localhost:3333
     ports:
       - '3000:80'
