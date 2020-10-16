@@ -189,6 +189,8 @@
   list-style-type: none;
   text-align: center;
   justify-content: center;
+  padding: 0;
+  flex-grow: 1;
 }
 
 .list_item {
@@ -215,15 +217,27 @@
 }
 
 .recommended_img {
-  height: 200px;
-  width: 165px;
+  height: auto;
+  width: 120px;
+}
+
+@media (min-width: 48rem) {
+  .recommended_img {
+    width: 165px;
+  }
 }
 
 .recommended_title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 165px;
+  max-width: 120px;
+}
+
+@media (min-width: 48rem) {
+  .recommended_title {
+    max-width: 165px;
+  }
 }
 
 .list-item {
