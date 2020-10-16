@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  namespace: hackathon
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq
+
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: "rabbitmq:3-management"
+          ports:
+            - containerPort: 15672
+            - containerPort: 5672
+          env:
+            - name: RABBITMQ_ERLANG_COOKIE
+              value: "SWQOKODSQALRPCLNMEQG"
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: recommendation-secret
+                  key: rabbit-mq-user
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: recommendation-secret
+                  key: rabbit-mq-password
+            - name: RABBITMQ_DEFAULT_VHOST
+              value: "/"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+  namespace: hackathon
+  labels:
+    app: rabbitmq-service
+spec:
+  type: NodePort #LoadBalancer
+  ports:
+    - name: http
+      protocol: TCP
+      port: 15672
+      nodePort: 30081
+    - name: amqp
+      protocol: TCP
+      port: 5672
+      nodePort: 30082
+  selector:
+    app: rabbitmq
