@@ -1,5 +1,4 @@
 @media (min-width: 576px) {
-
 }
 
 @media (min-width: 768px) {
@@ -134,7 +133,12 @@
 
 .search-results-p {
   display: grid;
-  grid-template-columns: 6fr 1fr;
+}
+
+@media (min-width: 48rem) {
+  .search-results-p {
+    grid-template-columns: 6fr 1fr;
+  }
 }
 
 .search-preview {
@@ -143,7 +147,6 @@
   text-align: left;
   padding-left: 5px;
   font-size: 20px;
-  height: 40px;
   padding: 0 5px;
   display: flex;
   align-items: center;
@@ -199,7 +202,7 @@
 }
 
 .app_title {
-  font-size: 4rem;
+  font-size: 4em;
   line-height: 1;
 }
 
@@ -257,4 +260,8 @@
 #recommended,
 #recommendation_btn {
   visibility: hidden;
+}
+
+.title {
+  margin: 0.625rem auto;
 }
