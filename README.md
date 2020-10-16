@@ -1,7 +1,7 @@
 # Streaming Recommendations Platform - What2Watch
 
 ## Overview
-This project is part of hackathon from INF-332 made by team-7.
+This project is part of hackathon developed by team-7 in behalf of INF-332.
 
 Our purpose is to provide the best movie, series and tv's platform recommendation for everyone and ofcourse, for free.
 
