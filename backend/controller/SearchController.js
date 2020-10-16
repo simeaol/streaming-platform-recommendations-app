@@ -64,7 +64,7 @@ module.exports = {
             var providers = new Map();
             var justwatch = new JustWatch({locale:'pt_BR'});
             for(item of data){
-                let title = item;
+                let title = item['t'];
                 console.info(`Title item = ${title}`);
                 var result = await justwatch.search({query: title});
                 for(item of result['items']){                                       

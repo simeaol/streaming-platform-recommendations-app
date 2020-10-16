@@ -7,6 +7,9 @@ MAINTAINER equipe7
 #Create app directory
 WORKDIR /usr/src/app
 
+#RabbitMQ broker instance
+ENV RABBIT_MQ_URL=amqp://equipe7:equipe7@173.193.120.98:30082
+
 #Copy all source code from current dir to workdir
 COPY . .
 
