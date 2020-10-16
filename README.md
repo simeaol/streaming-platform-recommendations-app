@@ -3,7 +3,7 @@
 ## Overview
 This project is part of hackathon developed by team-7 in behalf of INF-332.
 
-Our purpose is to provide the best movie, series and tv's platform recommendation for everyone and ofcourse, for free.
+Our purpose is to provide the best movie, series and tv's platform recommendation for everyone and of course, all for free.
 
 Check it out [here](http://what2watch.pratica.me/) or [here](http://what2watch.simeao.com.br/)
 
