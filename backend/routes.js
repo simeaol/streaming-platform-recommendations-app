@@ -1,7 +1,7 @@
-const Router = require("express").Router
-const bodyParser = require('body-parser')
-const SearchController = require('./controller/SearchController')
-const RecommendationController =require('./controller/Recommendation')
+const Router = require("express").Router;
+const bodyParser = require('body-parser');
+const SearchController = require('./controller/SearchController');
+const RecommendationController =require('./controller/Recommendation');
 
 const routes = Router()
 const jsonParser = bodyParser.json();
@@ -14,6 +14,5 @@ routes.get('/providers/:id', SearchController.findProviderById);
 
 routes.get('/recommendation/movie', jsonParser, RecommendationController.movieRecommendation);
 routes.get('/recommendation/serie', jsonParser, bodyParser, RecommendationController.tvRecommendation);
-
 
 module.exports = routes;
