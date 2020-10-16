@@ -29,7 +29,7 @@ So take a look at the diagram bellow to deep dive into our platform architecture
 > `docker-compose -f docker-compose.yml up -d --build`
 
 ### You can also run all apps and services one-by-one
-To do that, please `cd` in backend and fronend folder and run the following commands:
+To do that, please `cd` in backend and frontend folder and run the following commands:
 
 > `docker build -t {IMAGE_NAME} .`
 
