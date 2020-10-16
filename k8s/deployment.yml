@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: backend-app
-        image: simeaolm/recommendation-backend:prod
+        image: simeaolm/recommendation-backend:v1
         ports:
         - containerPort: 3333
 
@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
       - name: frontend-app
-        image: simeaolm/recommendation-frontend:v1
+        image: simeaolm/recommendation-frontend:v3
         ports:
         - containerPort: 80
         env:
