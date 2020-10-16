@@ -1,5 +1,4 @@
 @media (min-width: 576px) {
-
 }
 
 @media (min-width: 768px) {
@@ -134,7 +133,12 @@
 
 .search-results-p {
   display: grid;
-  grid-template-columns: 6fr 1fr;
+}
+
+@media (min-width: 48rem) {
+  .search-results-p {
+    grid-template-columns: 6fr 1fr;
+  }
 }
 
 .search-preview {
@@ -143,7 +147,6 @@
   text-align: left;
   padding-left: 5px;
   font-size: 20px;
-  height: 40px;
   padding: 0 5px;
   display: flex;
   align-items: center;
@@ -186,6 +189,14 @@
   list-style-type: none;
   text-align: center;
   justify-content: center;
+  padding: 0;
+  flex-grow: 1;
+}
+
+@media (min-width: 48rem) {
+  .list_of_recommendeds {
+    padding: 1em;
+  }
 }
 
 .list_item {
@@ -199,7 +210,7 @@
 }
 
 .app_title {
-  font-size: 4rem;
+  font-size: 4em;
   line-height: 1;
 }
 
@@ -212,15 +223,27 @@
 }
 
 .recommended_img {
-  height: 200px;
-  width: 165px;
+  height: auto;
+  width: 120px;
+}
+
+@media (min-width: 48rem) {
+  .recommended_img {
+    width: 165px;
+  }
 }
 
 .recommended_title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 165px;
+  max-width: 120px;
+}
+
+@media (min-width: 48rem) {
+  .recommended_title {
+    max-width: 165px;
+  }
 }
 
 .list-item {
@@ -257,4 +280,8 @@
 #recommended,
 #recommendation_btn {
   visibility: hidden;
+}
+
+.title {
+  margin: 0.625rem auto;
 }
