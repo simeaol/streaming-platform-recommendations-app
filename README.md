@@ -15,7 +15,7 @@ We love microservices and all the approach behind it and we believe in Docker an
 All the communication between services and SPA runs over http protocol using RESTFul and JSON.
 So take a look at the diagram bellow to deep dive into our platform architecture.
 
-![Architecture](architecture-v1.png)
+![Architecture](architecture-v2.png)
 
 ### Pretty easy, doesn't it ?
 
