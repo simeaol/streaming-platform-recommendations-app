@@ -1,9 +1,10 @@
 const express = require("express");
-const cors = require('cors')
+const cors = require('cors');
 const routes = require('./routes');
 const mqService = require('./mq/mqservices');
 
 var app = express();
+const expressSwagger = require('express-swagger-generator')(app);
 app.use(cors())
 app.use(express.json());
 
@@ -56,6 +57,30 @@ app.get('/recommendation/*', (req, res, next) => {
 app.use(routes);
 
 const PORT = process.env.PORT || 3333;
+
+
+
+
+let options = {
+    swaggerDefinition: {
+        info: {
+            description: 'This is the what2watch documentation API',
+            title: 'What2Watch API',
+            version: '1.0.0',
+        },
+        host: 'localhost:3333',
+        basePath: '/',
+        produces: [
+            "application/json",
+            "application/xml"
+        ],
+        schemes: ['http'],
+    },
+    basedir: __dirname,
+    files: ['./routes.js'] 
+};
+expressSwagger(options)
+
 app.listen(PORT, (req, resp) => {
     console.log(`server started at ${PORT}`);
 })
