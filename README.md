@@ -25,6 +25,12 @@ So take a look at the diagram bellow to deep dive into our platform architecture
 #
 
 ## For Developers
+### API documentation
+> We use swagger to create the api document and it is available only in devopment environment which means, we will not publish it on the web.
+If you wanna check swagger-ui, please:
+1- Go to backend folder and run `npm start`
+2- In your browser, access `http://localhost:3333/api-docs`
+
 #### Running apps in local machine using docker-compose
 > `docker-compose -f docker-compose.yml up -d --build`
 
